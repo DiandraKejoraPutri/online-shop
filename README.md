@@ -1,16 +1,5 @@
-# epicup
+epicup 
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+epicup adalah judul dari platform onlineshop atau e-commerce ini
+![Cuplikan layar 2025-03-18 113452](https://github.com/user-attachments/assets/ee3f0822-1fa8-4ef2-87b8-0aba549a1437)
+ini merupakan output dari halaman register, dimana kita harus membuat akun sebelum masuk pada halaman utama aplikasi
