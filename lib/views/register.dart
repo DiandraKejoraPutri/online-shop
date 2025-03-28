@@ -12,7 +12,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   UserService user = UserService();
   final formKey = GlobalKey<FormState>();
-
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
@@ -77,7 +76,7 @@ class _RegisterState extends State<Register> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text(
+                            child:Text(
                               "Sign Up!",
                               style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                             ),
@@ -85,9 +84,9 @@ class _RegisterState extends State<Register> {
                           const SizedBox(height: 10),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/Log In');
+                              Navigator.pushNamed(context, '/login_view');
                             },
-                            child: const Text("Already have an account? Log In"),
+                            child:Text("already have an account? Log In"),
                           ),
                         ],
                       ),
@@ -192,6 +191,7 @@ class _RegisterState extends State<Register> {
         "role": role,
         "password": password.text,
       };
+      print("sending data: $data");
       var result = await user.registerUser(data);
 
       if (result.status == true) {

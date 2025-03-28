@@ -1,46 +1,47 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:epicup/models/data_map.dart';
 import 'package:epicup/models/login.dart';
 import 'package:epicup/services/url.dart' as url;
-import 'package:http/http.dart' as http;
 
 class UserService {
-  Future registerUser(datas) async {
-    var uri = Uri.parse(url.BaseUrl + "/auth/register");
-    var register = await http.post(uri, body: datas);
+  Future<DataMap> registerUser(Map<String, dynamic> data) async {
+    var uri = Uri.parse("${url.BaseUrl}/auth/register");
 
-    var data = json.decode(register.body);
-    print(data);
-    if (register.statusCode == 200) {
-      if (data["status"] == true) {
-        DataMap response = DataMap(
-            status: true, message: "Sukses menambah user", data: data);
-        return response;
-      } else {
-        var message = '';
-        for (String key in data["message"].keys) {
-          message += data["message"][key][0].toString() + '\n';
+    try {
+      var response = await http.post(
+        uri,
+        headers: {
+          "Content-Type": "application/json", 
+          "Accept": "application/json",
+        },
+        body: jsonEncode(data), 
+      );
+
+      if (response.statusCode == 200) {
+        var jsonData = jsonDecode(response.body);
+        if (jsonData["status"] == true) {
+          return DataMap(status: true, message: "Sukses menambah user", data: jsonData);
+        } else {
+          return DataMap(status: false, message: jsonData["message"].toString());
         }
-        DataMap response =
-            DataMap(status: false, message: message);
-        return response;
+      } else {
+        return DataMap(status: false, message: "Gagal menambah user. Error: ${response.statusCode}");
       }
-    } else {
-      DataMap response = DataMap(
-          status: false,
-          message:
-              "gagal menambah user dengan code error ${register.statusCode}");
-      return response ;
+    } catch (e) {
+      return DataMap(status: false, message: "Terjadi kesalahan: $e");
     }
   }
+}
 
-  Future loginUser(datas) async {
-    var uri = Uri.parse(url.BaseUrl + "/login");
-    var login = await http.post(uri, body: datas);
+  Future login(datas) async {
+    var uri = Uri.parse(url.BaseUrl + "/auth/login");
+    var register = await http.post(uri, body: datas);
 
-    var data = json.decode(login.body);
-    print(data);
-    if (login.statusCode == 200) {
+var data = json.decode(register.body);
+print(data);
+    if (register.statusCode == 200) {
+      
       if (data["status"] == true) {
         Login login = Login(
             status: data["status"],
@@ -50,9 +51,9 @@ class UserService {
             name: data["user"]["name"],
             email: data["user"]["email"],
             role: data["user"]["role"]);
-        // await Login.prefs();
+        await login.prefs();
         DataMap response = DataMap(
-            status: true, message: "Sukses login user", data: data);
+            status: true, message: "Sukses login", data: data);
         return response;
       } else {
         DataMap response =
@@ -63,8 +64,7 @@ class UserService {
       DataMap response = DataMap(
           status: false,
           message:
-              "gagal menambah user dengan code error ${login.statusCode}");
+              "gagal menambah user dengan code error ${register.statusCode}");
       return response;
     }
   }
-}
